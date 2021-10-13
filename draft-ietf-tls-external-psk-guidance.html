@@ -247,22 +247,22 @@ body {
 }
 
 /* headings */
-#title, h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6 {
   font-family: "Cabin Condensed", sans-serif;
   font-weight: 600;
   margin: 0.8em 0 0.3em;
   font-size-adjust: 0.5;
   color: var(--title-color);
 }
-#title {
+h1#title {
   font-size: 32px;
   line-height: 40px;
   clear: both;
 }
-#title, #rfcnum {
+h1#title, h1#rfcnum {
   margin: 1.5em 0 0.2em;
 }
-#rfcnum + #title {
+h1#rfcnum + h1#title {
   margin: 0.2em 0;
 }
 
@@ -1031,7 +1031,7 @@ address div.right {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Housley, et al.</td>
-<td class="center">Expires 8 April 2022</td>
+<td class="center">Expires 16 April 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1044,12 +1044,12 @@ address div.right {
 <dd class="internet-draft">draft-ietf-tls-external-psk-guidance-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2021-10-05" class="published">5 October 2021</time>
+<time datetime="2021-10-13" class="published">13 October 2021</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-04-08">8 April 2022</time></dd>
+<dd class="expires"><time datetime="2022-04-16">16 April 2022</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1110,7 +1110,7 @@ provided by TLS 1.3 when external PSKs are used.<a href="#section-abstract-1" cl
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 8 April 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 16 April 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1225,8 +1225,8 @@ provided by TLS 1.3 when external PSKs are used.<a href="#section-abstract-1" cl
 in Transport Layer Security (TLS) 1.3 <span>[<a href="#RFC8446" class="xref">RFC8446</a>]</span>. This guidance also
 applies to Datagram TLS (DTLS) 1.3 <span>[<a href="#I-D.ietf-tls-dtls13" class="xref">I-D.ietf-tls-dtls13</a>]</span> and
 Compact TLS 1.3 <span>[<a href="#I-D.ietf-tls-ctls" class="xref">I-D.ietf-tls-ctls</a>]</span>. For readability, this document uses
-the term TLS to refer to all such versions. External PSKs are symmetric 
-secret keys provided to the TLS protocol implementation as external inputs. 
+the term TLS to refer to all such versions. External PSKs are symmetric
+secret keys provided to the TLS protocol implementation as external inputs.
 External PSKs are provisioned out-of-band. This document lists
 TLS security properties provided by PSKs under certain assumptions and
 demonstrates how violations of these assumptions lead to attacks. This
@@ -1272,10 +1272,7 @@ participating in a connection.<a href="#section-3-1" class="pilcrow">¶</a></p>
 PSKs allows TLS endpoints to authenticate the endpoint identities.  However,
 these keys do not provide privacy protection of endpoint identities
 (see <a href="#endpoint-privacy" class="xref">Section 5</a>), nor do they provide
-non-repudiation (one endpoint in a connection can deny the conversation).
-Protection of endpoint identities and protection against an endpoint denying
-the conversation are possible only when a fresh TLS handshake that
-authenticates the endpoints with certificates is performed.<a href="#section-4-1" class="pilcrow">¶</a></p>
+non-repudiation (one endpoint in a connection can deny the conversation).<a href="#section-4-1" class="pilcrow">¶</a></p>
 <p id="section-4-2">PSK authentication security implicitly assumes one fundamental property: each
 PSK is known to exactly one client and one server, and that these never switch
 roles. If this assumption is violated, then the security properties of TLS are
@@ -1305,7 +1302,7 @@ attacker to passively read (and actively modify) all traffic.<a href="#section-4
 to connect them in unintended ways, as described below. Note that a partial mitigiation
 against this class of attack is available: each group member includes the SNI extension <span>[<a href="#RFC6066" class="xref">RFC6066</a>]</span>
 and terminates the connection on mismatch between the presented SNI value and the
-receiving member's known identity.  See <span>[<a href="#Selfie" class="xref">Selfie</a>]</span> for details.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+receiving member's known identity. See <span>[<a href="#Selfie" class="xref">Selfie</a>]</span> for details.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
 <p id="section-4.1-4">To illustrate the rerouting attack, consider the group of peers who know
 the PSK be <code>A</code>, <code>B</code>, and <code>C</code>. The attack proceeds as follows:<a href="#section-4.1-4" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-4.1-5">
@@ -1367,7 +1364,7 @@ asymmetric cases, respectively).<a href="#section-4.2-2" class="pilcrow">¶</a><
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-privacy-considerations" class="section-name selfRef">Privacy Considerations</a>
       </h2>
 <p id="section-5-1">PSK privacy properties are orthogonal to security properties described in <a href="#sec-properties" class="xref">Section 4</a>.
-Traditionally, TLS does little to keep PSK identity information private. For example,
+TLS does little to keep PSK identity information private. For example,
 an adversary learns information about the external PSK or its identifier by virtue of it
 appearing in cleartext in a ClientHello. As a result, a passive adversary can link two or
 more connections together that use the same external PSK on the wire. Depending on the PSK
@@ -1447,10 +1444,10 @@ other accommodations SHOULD be used as discussed in <a href="#recommendations" c
         </h3>
 <ul class="normal">
 <li class="normal" id="section-6.1-1.1">Many industrial protocols assume that PSKs are distributed and assigned manually via one of the following
-approaches: typing the PSK into the devices, or via web server masks (using a Trust On First Use (TOFU)
-approach with a device completely unprotected before the first login did take place). Many devices have very
-limited UI. For example, they may only have a numeric keypad or even less number of buttons. When the TOFU
-approach is not suitable, entering the key would require typing it on a constrained UI.<a href="#section-6.1-1.1" class="pilcrow">¶</a>
+approaches: typing the PSK into the devices, or using a Trust On First Use (TOFU) approach with a device
+completely unprotected before the first login did take place. Many devices have very limited UI. For example,
+they may only have a numeric keypad or even less number of buttons. When the TOFU approach is not suitable,
+entering the key would require typing it on a constrained UI.<a href="#section-6.1-1.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-6.1-1.2">Some devices provision PSKs via an out-of-band, cloud-based syncing protocol.<a href="#section-6.1-1.2" class="pilcrow">¶</a>
 </li>
@@ -1502,8 +1499,8 @@ client and server identifiers over the TLS connection after the
 handshake, and (2) incorporating identifiers for both the client and the
 server into the context string for an EPSK importer.<a href="#section-7-2.2" class="pilcrow">¶</a>
 </li>
-        <li id="section-7-2.3">Nodes using TLS 1.3 SHOULD use external PSK importers <span>[<a href="#I-D.ietf-tls-external-psk-importer" class="xref">I-D.ietf-tls-external-psk-importer</a>]</span>
-when configuring PSKs for a client-server pair. Importers make provisioning
+        <li id="section-7-2.3">Nodes SHOULD use external PSK importers <span>[<a href="#I-D.ietf-tls-external-psk-importer" class="xref">I-D.ietf-tls-external-psk-importer</a>]</span>
+when configuring PSKs for a client-server pair when applicable. Importers make provisioning
 external PSKs easier and less error prone by deriving a unique, imported PSK from the
 external PSK for each key derivation function a node supports. See the Security Considerations
 in <span>[<a href="#I-D.ietf-tls-external-psk-importer" class="xref">I-D.ietf-tls-external-psk-importer</a>]</span> for more information.<a href="#section-7-2.3" class="pilcrow">¶</a>
@@ -1584,7 +1581,8 @@ influences the application's behavior when identity collisions occur. When a ser
 receives a PSK identity in a TLS 1.3 ClientHello, some TLS stacks
 execute the application's registered callback function before checking the stack's
 internal session resumption cache. This means that if a PSK identity collision occurs,
-the application will be given precedence over how to handle the PSK.<a href="#section-7.1.2-1" class="pilcrow">¶</a></p>
+the application's external PSK usage will typically take precedence over the internal
+session resumption path.<a href="#section-7.1.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1598,7 +1596,7 @@ the application will be given precedence over how to handle the PSK.<a href="#se
       </h2>
 <p id="section-8-1">Security considerations are provided throughout this document.  It bears
 repeating that there are concerns related to the use of external PSKs regarding
-proper identification of TLS 1.3 endpoints and additional risks when external 
+proper identification of TLS 1.3 endpoints and additional risks when external
 PSKs are known to a group.<a href="#section-8-1" class="pilcrow">¶</a></p>
 <p id="section-8-2">It is NOT RECOMMENDED to share the same PSK between more than one client and server.
 However, as discussed in <a href="#use-cases" class="xref">Section 6</a>, there are application scenarios that may
@@ -1606,14 +1604,14 @@ rely on sharing the same PSK among multiple nodes. <span>[<a href="#I-D.ietf-tls
 helps in mitigating rerouting and Selfie style reflection attacks when the PSK
 is shared among multiple nodes. This is achieved by correctly using the node
 identifiers in the ImportedIdentity.context construct specified in
-<span>[<a href="#I-D.ietf-tls-external-psk-importer" class="xref">I-D.ietf-tls-external-psk-importer</a>]</span>. It is RECOMMENDED that each endpoint
-selects one globally unique identifier and uses it in all PSK handshakes. The
+<span>[<a href="#I-D.ietf-tls-external-psk-importer" class="xref">I-D.ietf-tls-external-psk-importer</a>]</span>. One solution would be for each endpoint
+to select one globally unique identifier and uses it in all PSK handshakes. The
 unique identifier can, for example, be one of its MAC addresses, a 32-byte
-random number, or its Universally Unique IDentifier (UUID) <span>[<a href="#RFC4122" class="xref">RFC4122</a>]</span>. Each
-endpoint SHOULD know the identifier of the other endpoint with which its wants
+random number, or its Universally Unique IDentifier (UUID) <span>[<a href="#RFC4122" class="xref">RFC4122</a>]</span>.<a href="#section-8-2" class="pilcrow">¶</a></p>
+<p id="section-8-3">Each endpoint SHOULD know the identifier of the other endpoint with which its wants
 to connect and SHOULD compare it with the other endpoint's identifier used in
 ImportedIdentity.context. It is however important to remember that endpoints
-sharing the same group PSK can always impersonate each other.<a href="#section-8-2" class="pilcrow">¶</a></p>
+sharing the same group PSK can always impersonate each other.<a href="#section-8-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="IANA">
@@ -1633,6 +1631,10 @@ sharing the same group PSK can always impersonate each other.<a href="#section-8
 <a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
+<dt id="I-D.ietf-tls-external-psk-importer">[I-D.ietf-tls-external-psk-importer]</dt>
+        <dd>
+<span class="refAuthor">Benjamin, D.</span> and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"Importing External PSKs for TLS"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tls-external-psk-importer-06</span>, <time datetime="2020-12-03" class="refDate">3 December 2020</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-tls-external-psk-importer-06">https://datatracker.ietf.org/doc/html/draft-ietf-tls-external-psk-importer-06</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>&gt;</span>. </dd>
@@ -1667,10 +1669,6 @@ sharing the same group PSK can always impersonate each other.<a href="#section-8
 <dt id="I-D.ietf-tls-dtls13">[I-D.ietf-tls-dtls13]</dt>
         <dd>
 <span class="refAuthor">Rescorla, E.</span>, <span class="refAuthor">Tschofenig, H.</span>, and <span class="refAuthor">N. Modadugu</span>, <span class="refTitle">"The Datagram Transport Layer Security (DTLS) Protocol Version 1.3"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tls-dtls13-43</span>, <time datetime="2021-04-30" class="refDate">30 April 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-tls-dtls13-43">https://datatracker.ietf.org/doc/html/draft-ietf-tls-dtls13-43</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="I-D.ietf-tls-external-psk-importer">[I-D.ietf-tls-external-psk-importer]</dt>
-        <dd>
-<span class="refAuthor">Benjamin, D.</span> and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"Importing External PSKs for TLS"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tls-external-psk-importer-06</span>, <time datetime="2020-12-03" class="refDate">3 December 2020</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-tls-external-psk-importer-06">https://datatracker.ietf.org/doc/html/draft-ietf-tls-external-psk-importer-06</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.irtf-cfrg-cpace">[I-D.irtf-cfrg-cpace]</dt>
         <dd>

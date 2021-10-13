@@ -5,12 +5,12 @@
 tls                                                           R. Housley
 Internet-Draft                                            Vigil Security
 Intended status: Informational                                J. Hoyland
-Expires: 8 April 2022                                    Cloudflare Ltd.
+Expires: 16 April 2022                                   Cloudflare Ltd.
                                                                 M. Sethi
                                                                 Ericsson
                                                                C.A. Wood
                                                               Cloudflare
-                                                          5 October 2021
+                                                         13 October 2021
 
 
                  Guidance for External PSK Usage in TLS
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 April 2022.
+   This Internet-Draft will expire on 16 April 2022.
 
 Copyright Notice
 
@@ -136,9 +136,6 @@ Table of Contents
    identities.  However, these keys do not provide privacy protection of
    endpoint identities (see Section 5), nor do they provide non-
    repudiation (one endpoint in a connection can deny the conversation).
-   Protection of endpoint identities and protection against an endpoint
-   denying the conversation are possible only when a fresh TLS handshake
-   that authenticates the endpoints with certificates is performed.
 
    PSK authentication security implicitly assumes one fundamental
    property: each PSK is known to exactly one client and one server, and
@@ -227,18 +224,18 @@ Table of Contents
 5.  Privacy Considerations
 
    PSK privacy properties are orthogonal to security properties
-   described in Section 4.  Traditionally, TLS does little to keep PSK
-   identity information private.  For example, an adversary learns
-   information about the external PSK or its identifier by virtue of it
-   appearing in cleartext in a ClientHello.  As a result, a passive
-   adversary can link two or more connections together that use the same
-   external PSK on the wire.  Depending on the PSK identity, a passive
-   attacker may also be able to identify the device, person, or
-   enterprise running the TLS client or TLS server.  An active attacker
-   can also use the PSK identity to suppress handshakes or application
-   data from a specific device by blocking, delaying, or rate-limiting
-   traffic.  Techniques for mitigating these risks require further
-   analysis and are out of scope for this document.
+   described in Section 4.  TLS does little to keep PSK identity
+   information private.  For example, an adversary learns information
+   about the external PSK or its identifier by virtue of it appearing in
+   cleartext in a ClientHello.  As a result, a passive adversary can
+   link two or more connections together that use the same external PSK
+   on the wire.  Depending on the PSK identity, a passive attacker may
+   also be able to identify the device, person, or enterprise running
+   the TLS client or TLS server.  An active attacker can also use the
+   PSK identity to suppress handshakes or application data from a
+   specific device by blocking, delaying, or rate-limiting traffic.
+   Techniques for mitigating these risks require further analysis and
+   are out of scope for this document.
 
    In addition to linkability in the network, external PSKs are
    intrinsically linkable by PSK receivers.  Specifically, servers can
@@ -319,13 +316,12 @@ Table of Contents
 
    *  Many industrial protocols assume that PSKs are distributed and
       assigned manually via one of the following approaches: typing the
-      PSK into the devices, or via web server masks (using a Trust On
-      First Use (TOFU) approach with a device completely unprotected
-      before the first login did take place).  Many devices have very
-      limited UI.  For example, they may only have a numeric keypad or
-      even less number of buttons.  When the TOFU approach is not
-      suitable, entering the key would require typing it on a
-      constrained UI.
+      PSK into the devices, or using a Trust On First Use (TOFU)
+      approach with a device completely unprotected before the first
+      login did take place.  Many devices have very limited UI.  For
+      example, they may only have a numeric keypad or even less number
+      of buttons.  When the TOFU approach is not suitable, entering the
+      key would require typing it on a constrained UI.
 
    *  Some devices provision PSKs via an out-of-band, cloud-based
       syncing protocol.
@@ -377,12 +373,12 @@ Table of Contents
        and (2) incorporating identifiers for both the client and the
        server into the context string for an EPSK importer.
 
-   3.  Nodes using TLS 1.3 SHOULD use external PSK importers
+   3.  Nodes SHOULD use external PSK importers
        [I-D.ietf-tls-external-psk-importer] when configuring PSKs for a
-       client-server pair.  Importers make provisioning external PSKs
-       easier and less error prone by deriving a unique, imported PSK
-       from the external PSK for each key derivation function a node
-       supports.  See the Security Considerations in
+       client-server pair when applicable.  Importers make provisioning
+       external PSKs easier and less error prone by deriving a unique,
+       imported PSK from the external PSK for each key derivation
+       function a node supports.  See the Security Considerations in
        [I-D.ietf-tls-external-psk-importer] for more information.
 
    4.  Where possible the main PSK (that which is fed into the importer)
@@ -462,8 +458,8 @@ Table of Contents
    identity in a TLS 1.3 ClientHello, some TLS stacks execute the
    application's registered callback function before checking the
    stack's internal session resumption cache.  This means that if a PSK
-   identity collision occurs, the application will be given precedence
-   over how to handle the PSK.
+   identity collision occurs, the application's external PSK usage will
+   typically take precedence over the internal session resumption path.
 
 8.  Security Considerations
 
@@ -479,16 +475,17 @@ Table of Contents
    mitigating rerouting and Selfie style reflection attacks when the PSK
    is shared among multiple nodes.  This is achieved by correctly using
    the node identifiers in the ImportedIdentity.context construct
-   specified in [I-D.ietf-tls-external-psk-importer].  It is RECOMMENDED
-   that each endpoint selects one globally unique identifier and uses it
-   in all PSK handshakes.  The unique identifier can, for example, be
-   one of its MAC addresses, a 32-byte random number, or its Universally
-   Unique IDentifier (UUID) [RFC4122].  Each endpoint SHOULD know the
-   identifier of the other endpoint with which its wants to connect and
-   SHOULD compare it with the other endpoint's identifier used in
-   ImportedIdentity.context.  It is however important to remember that
-   endpoints sharing the same group PSK can always impersonate each
-   other.
+   specified in [I-D.ietf-tls-external-psk-importer].  One solution
+   would be for each endpoint to select one globally unique identifier
+   and uses it in all PSK handshakes.  The unique identifier can, for
+   example, be one of its MAC addresses, a 32-byte random number, or its
+   Universally Unique IDentifier (UUID) [RFC4122].
+
+   Each endpoint SHOULD know the identifier of the other endpoint with
+   which its wants to connect and SHOULD compare it with the other
+   endpoint's identifier used in ImportedIdentity.context.  It is
+   however important to remember that endpoints sharing the same group
+   PSK can always impersonate each other.
 
 9.  IANA Considerations
 
@@ -497,6 +494,13 @@ Table of Contents
 10.  References
 
 10.1.  Normative References
+
+   [I-D.ietf-tls-external-psk-importer]
+              Benjamin, D. and C. A. Wood, "Importing External PSKs for
+              TLS", Work in Progress, Internet-Draft, draft-ietf-tls-
+              external-psk-importer-06, 3 December 2020,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-tls-
+              external-psk-importer-06>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -537,13 +541,6 @@ Table of Contents
               dtls13-43, 30 April 2021,
               <https://datatracker.ietf.org/doc/html/draft-ietf-tls-
               dtls13-43>.
-
-   [I-D.ietf-tls-external-psk-importer]
-              Benjamin, D. and C. A. Wood, "Importing External PSKs for
-              TLS", Work in Progress, Internet-Draft, draft-ietf-tls-
-              external-psk-importer-06, 3 December 2020,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-tls-
-              external-psk-importer-06>.
 
    [I-D.irtf-cfrg-cpace]
               Abdalla, M., Haase, B., and J. Hesse, "CPace, a balanced
