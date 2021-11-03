@@ -229,7 +229,7 @@ are secure against both active and passive attack. However, they lack forward
 security. Forward security may be achieved by using a PSK-DH mode.
 
 In contrast, if a low entropy PSK is used, then PSK-only key establishment modes
-are subject to passive exhaustive search passive attacks which will reveal the
+are subject to passive exhaustive search attacks which will reveal the
 traffic keys. PSK-DH modes are subject to active attacks in which the attacker
 impersonates one side. The exhaustive search phase of these attacks can be mounted
 offline if the attacker captures a single handshake using the PSK, but those
@@ -349,7 +349,7 @@ SHOULD be employed. Note that no such mechanisms have yet been standardised, and
 that these mechanisms will not necessarily follow the same architecture as the
 process for incorporating EPSKs described in {{I-D.ietf-tls-external-psk-importer}}.
 
-2. Unless other accommodations are made to mitigate the risks of PSKs know to a group, each PSK MUST be restricted in
+2. Unless other accommodations are made to mitigate the risks of PSKs known to a group, each PSK MUST be restricted in
 its use to at most two logical nodes: one logical node in a TLS client
 role and one logical node in a TLS server role. (The two logical nodes
 MAY be the same, in different roles.) Two acceptable accommodations
